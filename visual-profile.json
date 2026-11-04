@@ -1,9 +1,0 @@
-{
-  "reference": {"files": ["index.html"], "viewportCss": {"width":390,"height":844}, "devicePixelRatio":1,"volatileMasks":[]},
-  "protectedGuardrails": ["Keep historical workouts available", "Never expose Scripture API keys", "Preserve Scripture cache keys", "Stop movement for sharp pain or returning weakness", "No automatic load escalation"],
-  "requiredViews": ["First lifting day", "Recovery day", "Reload week", "Program settings", "Scripture dialog", "320px mobile", "1280px desktop"],
-  "interactionTargets": ["Day picker", "Previous and next", "Today", "Week buttons", "Start date", "Training notes", "Scripture dialog"],
-  "motion": {"idle":"still","activeSignals":[],"reducedMotion":true},
-  "visualThresholds": {"majorAnchorToleranceCssPx":2,"pixelMismatchPercent":null},
-  "milestoneRegressionReserved":true
-}
