@@ -155,4 +155,4 @@ $('scriptureForm').onsubmit=async event=>{event.preventDefault();const key=$('bi
 $('clearScripture').onclick=()=>{try{localStorage.removeItem(BKEY);localStorage.removeItem(BIBLE);localStorage.removeItem(BCACHE);$('bibleKey').value='';$('scriptureStatus').textContent='Scripture connection cleared. Training logs are unchanged.';if(view==='today')render();}catch{$('scriptureStatus').textContent='This browser could not clear the connection.';}};
 if(data.timer&&(!Number.isFinite(data.timer.deadline)||!Number.isFinite(data.timer.duration)||timerRemaining()<=0)){data.timer=null;persist();}
 render();
-if('serviceWorker'in navigator&&(location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname)))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(r=>r.update()).catch(()=>{}));
+if('serviceWorker'in navigator&&(location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname)))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}));

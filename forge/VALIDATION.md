@@ -1,6 +1,6 @@
 # Forge prototype review
 
-Status: interaction verified; visual review performed against the selected Forge mock. Ready for the user's review, not deployed.
+Status: interaction verified; visual review performed against the selected Forge mock. User approved the release on November 3, 2026.
 
 - Browser checks: 7 core checks plus 3 targeted edge checks passed in Chromium. The self-contained HTML review copy also passed logging, reload persistence, and Progress checks.
 - Viewports: 320×844, 390×844, 768×844, and 1280×844 CSS pixels, DPR 1. Repeated resize and primary-button hit testing passed. Screenshots were inspected for clipping, overlap, font loading, and contrast.
@@ -14,4 +14,8 @@ Status: interaction verified; visual review performed against the selected Forge
 - Intentional differences from the concept: real calendar dates, a Progress tab and settings, actual prescriptions and effort targets, and expandable notes/back review. Typography, orange accent, artwork, and primary interaction style retain the selected direction.
 - Protected files: legacy `index.html`, root `sw.js`, original `data-*.js`, and root manifest match the restored live version. Existing Scripture keys are preserved; Forge logs use a separate key. No production push/deployment was performed.
 
-Known integration work for deployment: the legacy root service worker must exclude Forge navigations and narrow its cache cleanup before this new route is hosted alongside the old app. This local review build intentionally leaves that live code untouched.
+## Approved production cutover
+
+The preceding evidence describes the isolated prototype. The approved release replaces the root entry and worker, retains the original installed-app ID and launch URL, and leaves existing local storage and original workout data files intact. The root worker only caches app resources and removes obsolete root Ironform caches; it preserves unrelated caches and the nested Forge cache.
+
+All 12 checks passed across the core and targeted release runs. Two additional release tests use the real legacy worker and a production-shaped `/ironform/` path to verify upgrade, Scripture-key preservation, training-log persistence, timer persistence, offline reload with the old launch query, manifest identity, asset loading, and navigation. The root release was captured and visually inspected at 390×844 CSS pixels, DPR 1 (`../evidence/forge-release-mobile.png`). A resize-dependent test assertion now waits for the chart's replacement DOM before measuring its font; app behavior is unchanged.

@@ -1,6 +1,6 @@
-# Forge review prototype
+# Ironform Forge
 
-Approved orange Forge direction and seven-day, six-week workout plan. This is isolated under `forge/`; the current root app and its service worker are unchanged. No production deployment is part of this branch.
+Approved orange Forge direction and seven-day, six-week workout plan. The user approved production cutover on November 3, 2026. The root entry serves Forge at the existing Pages URL; `forge/` also remains directly accessible.
 
 Run `npm ci` and `npm run preview`, then open `http://127.0.0.1:8767/forge/`. Run `npm test` for browser and programming checks. The static app has no build step, account, or backend. After the first successful load, its own scoped service worker caches its assets for offline use.
 
@@ -12,4 +12,4 @@ Progression is derived from actual sets: all prescribed sets must reach the uppe
 
 Visual assets: original Magnific equipment image created for this conversation (`fH3hD62CDY`, 0 reported credits). Local Barlow Condensed and DM Sans fonts use their included SIL Open Font Licenses. The project uses native DOM/CSS and accessible HTML controls. No decorative layers intercept controls.
 
-Deployment review: the legacy root service worker caches every navigation as the old index page. Before hosting this route under the existing live origin, that legacy worker must be scoped to exclude `forge/` and its cache deletion narrowed. Do not publish this branch without addressing that integration and the user's review of the prototype.
+Deployment: `node tests/prepare-release.cjs` regenerates the root entry and manifests from the Forge entry. Keep the root manifest's original app ID and launch URL so existing home-screen installs retain their identity. The replacement root worker precaches Forge, normalizes the original launch query for offline use, and deletes only obsolete root Ironform caches. It preserves the nested Forge cache, unrelated caches, and all local storage. Increment its cache version for later releases. The previous app source and plan remain available in Git at `5a27103`; original `data-*.js` files are retained. Publish through the existing `main` branch GitHub Pages workflow.
