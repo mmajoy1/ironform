@@ -1,1 +1,24 @@
-const C='ironform-v5';const A=['./','./index.html','./manifest.webmanifest','./icon.svg','./data-1.js','./data-2.js','./data-3.js','./data-4.js','./data-5.js','./data-6.js','./data-7.js','./data-8.js','./data-9.js','./data-10.js','./data-11.js','./data-12.js','./data-13.js','./data-14.js','./data-15.js'];self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>c.addAll(A)).catch(()=>{}))});self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.origin!==location.origin)return;if(e.request.mode==='navigate'){e.respondWith(fetch(e.request,{cache:'no-store'}).then(r=>{const q=r.clone();caches.open(C).then(c=>c.put('./index.html',q));return r}).catch(()=>caches.match('./index.html')));return}e.respondWith(fetch(e.request).then(r=>{const q=r.clone();caches.open(C).then(c=>c.put(e.request,q));return r}).catch(()=>caches.match(e.request)))});
+const CACHE='ironform-v6-20261103a';
+const ASSETS=['./','./index.html','./archive.html','./refresh.html','./phase-v.js','./refresh-ui.js','./refresh.css','./manifest.webmanifest','./icon.svg',...Array.from({length:15},(_,i)=>`./data-${i+1}.js`)];
+self.addEventListener('install',event=>{
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',event=>{
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('ironform-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch',event=>{
+  const request=event.request,url=new URL(request.url),scope=new URL(self.registration.scope);
+  if(request.method!=='GET'||url.origin!==scope.origin||!url.pathname.startsWith(scope.pathname))return;
+  // One cache entry per path: date hashes and build queries never change page identity.
+  const key=url.origin+url.pathname;
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE);
+    try{
+      const response=await fetch(request,{cache:'no-store'});
+      if(response.ok)await cache.put(key,response.clone());
+      return response;
+    }catch{
+      return await cache.match(key)||new Response('Not available offline. Reconnect and try again.',{status:503,headers:{'Content-Type':'text/plain'}});
+    }
+  })());
+});
