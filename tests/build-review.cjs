@@ -1,0 +1,14 @@
+const fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),base=path.join(root,'forge'),out=path.resolve(root,'../review');
+fs.mkdirSync(out,{recursive:true});
+const read=name=>fs.readFileSync(path.join(base,name),'utf8');
+const data=(name,type)=>`data:${type};base64,${fs.readFileSync(path.join(base,name)).toString('base64')}`;
+let fonts=read('assets/fonts.css').replace(/url\(\.\/(font-\d+\.ttf)\)/g,(_,name)=>`url('${data('assets/'+name,'font/ttf')}')`);
+let css=read('app.css').replace("url('./assets/iron-plate.jpg')",`url('${data('assets/iron-plate.jpg','image/jpeg')}')`);
+const js=['program.js','store.js','app.js'].map(name=>read(name).replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')).join('\n');
+let html=read('index.html').replace('<link rel="stylesheet" href="./assets/fonts.css"><link rel="stylesheet" href="./app.css">',`<style>${fonts}\n${css}</style>`).replace('<link rel="manifest" href="./manifest.webmanifest">','').replace('./assets/icon.svg',data('assets/icon.svg','image/svg+xml')).replace('<script type="module" src="./app.js"></script>',`<script>(()=>{${js}\n})();</script>`);
+fs.writeFileSync(path.join(out,'Ironform-Forge-Preview.html'),html);
+fs.copyFileSync(path.join(root,'evidence/forge-today.png'),path.join(out,'Forge-Today.png'));
+fs.copyFileSync(path.join(root,'evidence/forge-train.png'),path.join(out,'Forge-Train.png'));
+fs.copyFileSync(path.join(root,'evidence/forge-rest.png'),path.join(out,'Forge-Rest.png'));
+console.log(path.join(out,'Ironform-Forge-Preview.html'));

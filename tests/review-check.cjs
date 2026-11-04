@@ -1,0 +1,12 @@
+const {chromium}=require('playwright'),path=require('node:path'),fs=require('node:fs');
+const {pathToFileURL}=require('node:url');
+(async()=>{const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(pathToFileURL(path.resolve(__dirname,'../../review/Ironform-Forge-Preview.html')).href);
+ await page.getByRole('button',{name:'Start session'}).click();await page.locator('#weightInput').fill('245');await page.locator('#repsInput').fill('6');await page.getByRole('button',{name:'Log working set'}).click();await page.locator('.timer').waitFor();
+ if(!(await page.locator('.log').innerText()).includes('245 lb'))throw Error('Portable logging failed');
+ await page.reload();await page.locator('.timer').waitFor();
+ await page.locator('[data-view="progress"]').click();await page.locator('.history-list').waitFor();
+ if(errors.length)throw Error(errors.join('\n'));
+ console.log(JSON.stringify({standalone:'passed',setLogging:'passed',reloadPersistence:'passed',progress:'passed',consoleErrors:errors}));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});
