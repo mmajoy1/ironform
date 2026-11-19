@@ -1,1 +1,56 @@
-{"reference":{"files":["../../mockups/forge-today.png","../../mockups/forge-train.png"],"viewportCss":{"width":390,"height":844},"devicePixelRatio":1,"volatileMasks":["date labels","rest timer"]},"protectedGuardrails":["Legacy index and root service worker unchanged","Separate Forge training storage","Scripture credentials never exported","Only real logged sets populate progress","No automatic lower-body progression","Incomplete, symptom-marked and reload-week work cannot earn load increases"],"requiredViews":["Today","Train","Rest","Progress empty and populated","Light lower and swap","Recovery-only","Settings","Scripture"],"interactionTargets":["Week and day selection","Set logging","Timer pause/resume/add/skip","Delete set","Exercise swap","Completion","Backup export/import","Keyboard and dialog Escape"],"motion":{"idle":"still","activeSignals":["rest countdown","logged set progress","screen navigation"],"reducedMotion":true},"visualThresholds":{"majorAnchorToleranceCssPx":2,"pixelMismatchPercent":null},"milestoneRegressionReserved":true}
+{
+  "reference": {
+    "files": [
+      "../../mockups/forge-today.png",
+      "../../mockups/forge-train.png"
+    ],
+    "viewportCss": {
+      "width": 390,
+      "height": 844
+    },
+    "devicePixelRatio": 1,
+    "volatileMasks": [
+      "date labels",
+      "rest timer"
+    ]
+  },
+  "protectedGuardrails": [
+    "Previous set records preserved and downloadable",
+    "Scripture credentials never exported",
+    "All weights sets and reps explicit",
+    "Day 1 Monday and Day 7 Sunday",
+    "No daily digital logs or effort ratings",
+    "No automatic lower-body increases",
+    "Weekly suggestions require review and explicit save",
+    "Existing installed-app identity preserved"
+  ],
+  "requiredViews": [
+    "Workout",
+    "The Week",
+    "Sunday Check-in locked and available",
+    "Settings",
+    "Scripture",
+    "Lower-body bridge alternative"
+  ],
+  "interactionTargets": [
+    "Week/day navigation",
+    "Form notes",
+    "Weekly result and weight entry",
+    "Check-in save and copy",
+    "Settings and backups",
+    "Scripture connection",
+    "Keyboard and dialog Escape"
+  ],
+  "motion": {
+    "idle": "still",
+    "activeSignals": [
+      "Screen navigation"
+    ],
+    "reducedMotion": true
+  },
+  "visualThresholds": {
+    "majorAnchorToleranceCssPx": 2,
+    "pixelMismatchPercent": null
+  },
+  "milestoneRegressionReserved": true
+}

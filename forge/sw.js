@@ -1,5 +1,5 @@
-const CACHE='ironform-forge-preview-v1';
-const ASSETS=['./','./index.html','./app.css','./app.js','./program.js','./store.js','./manifest.webmanifest','./assets/icon.svg','./assets/iron-plate.jpg','./assets/fonts.css',...Array.from({length:6},(_,i)=>`./assets/font-${i+1}.ttf`)];
+const CACHE='ironform-forge-preview-morning-v1';
+const ASSETS=['./','./index.html','./morning.html','./app.css','./morning.css','./morning.js','./program.js','./weekly.js','./scripture.js','./readings.js','./manifest.webmanifest','./assets/icon.svg','./assets/iron-plate.jpg','./assets/fonts.css',...Array.from({length:6},(_,i)=>`./assets/font-${i+1}.ttf`)];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('ironform-forge-preview-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{

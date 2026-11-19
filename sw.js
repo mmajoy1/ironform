@@ -1,9 +1,9 @@
 // Replaces both sw.js and the legacy sw.js?v=20261001b registration.
 const ROOT = new URL('./', self.location.href);
 const PREFIX = `ironform-forge-live:${ROOT.pathname}:`;
-const CACHE = `${PREFIX}20261119-2`;
+const CACHE = `${PREFIX}20261119-morning-1`;
 const ASSETS = ['index.html', 'manifest.webmanifest', 'icon.svg',
-  'forge/app.css', 'forge/app.js', 'forge/program.js', 'forge/store.js',
+  'forge/app.css', 'forge/morning.css', 'forge/morning.js', 'forge/program.js', 'forge/weekly.js', 'forge/scripture.js', 'forge/readings.js',
   'forge/assets/icon.svg', 'forge/assets/iron-plate.jpg', 'forge/assets/fonts.css',
   ...Array.from({length:6}, (_,i)=>`forge/assets/font-${i+1}.ttf`)].map(path=>new URL(path, ROOT).href);
 self.addEventListener('install', event => event.waitUntil(
