@@ -22,18 +22,19 @@ export function historyFor(data,exerciseId,excludeKey=''){
 }
 export function loadAdvice(data,day,e){
  const history=historyFor(data,e.id,sessionKey(data.start,day.index));
- if(day.week===3)return {load:null,title:'Use a lighter load',text:'Recovery week: select a load that leaves at least 4 clean reps.'};
- if(day.easy)return {load:null,title:'Keep this easy',text:'At least 4 reps left. No load progression target on the reset day.'};
+ if(day.week===3)return {load:e.load,title:'Deload weight',text:'Use the listed lighter weight and reduced sets this week.'};
  const previous=history[0];
  if(previous){
   const r=previous.record,sets=r.sets,last=sets.at(-1),symptoms=sets.some(s=>s.symptom)||previous.session.back==='worse';
-  if(e.lower)return {load:symptoms?null:last.weight,title:'Lower-body load stays your choice',text:symptoms?'Your last entry noted worse symptoms. Reduce, change, or skip the movement; do not progress it.':'Repeat only if comfortable during and afterward. Add clean reps first; there is no automatic lower-body load increase.'};
-  const comparable=previous.session.index>=0&&Math.floor(previous.session.index/7)!==3&&r.targetSets===e.sets&&r.min===e.min&&r.max===e.max;
-  const sameWeight=sets.every(s=>s.weight===sets[0].weight);
-  const earned=comparable&&sets.length===e.sets&&sameWeight&&sets.every(s=>s.reps>=e.max&&s.rir>=e.rir&&!s.symptom)&&!symptoms;
-  if(earned&&e.kind==='barbell')return {load:sets[0].weight+data.increment,title:'Increase earned',text:`Every prescribed set reached ${e.max} reps with at least ${e.rir} left. Try +${data.increment} lb only if today’s warm-ups feel right.`};
-  if(earned)return {load:last.weight,title:'Top of range reached',text:e.kind==='bell'?'Keep the same bell, or choose the next available size only if manageable. Your heaviest Fat Bell is 62 lb; kettlebell is 40 lb.':'Repeat clean reps or choose a small manageable progression. No automatic load jump.'};
-  return {load:symptoms?null:last.weight,title:symptoms?'Review symptoms before loading':'Build clean reps',text:symptoms?'Your previous entry noted worse symptoms. Change, reduce, or skip the movement.':'Repeat a manageable load. Earn the top of the rep range on every set before adding weight.'};
+  if(symptoms)return {load:last?.weight??e.load,title:'Review the load',text:'Your last entry noted worse symptoms. Reduce, change, or skip the movement if needed.'};
+  const complete=sets.length>=e.sets&&sets.slice(0,e.sets).every(s=>s.reps>=e.reps&&!s.symptom);
+  if(!complete)return {load:last?.weight??e.load,title:'Repeat the weight',text:'Finish every prescribed set and rep before adding weight.'};
+  if(e.kind==='barbell'){
+   const jump=e.lower?10:data.increment;
+   return {load:(last?.weight??e.load??0)+jump,title:`Add ${jump} lb`,text:`Last time you completed every prescribed set and rep. Try ${jump} lb more today.`};
+  }
+  if(e.kind==='plate')return {load:(last?.weight??e.load??0)+5,title:'Small increase',text:'All prescribed work was completed. Add 5 lb only if the next plate setup is practical.'};
+  return {load:last?.weight??e.load,title:'Repeat the weight',text:'Keep the same implement and beat the prescription cleanly again.'};
  }
- return {load:e.load,title:e.load!==null&&e.load>0?'First-session trial':'Choose by effort',text:e.id==='bench-strength'?'Try 245 lb only if 6 reps leave 2 clean reps. Use 235 lb or less if needed.':e.id==='ohp-strength'?'Trial 135 lb with 2 clean reps left; progress toward 145 lb as earned.':e.lower?'Choose a light load and leave about 4 clean reps. Keep your back’s response in view.':e.kind==='bodyweight'?'Enter 0 lb for bodyweight. Adjust the variation to the required effort.':`Choose a manageable load that leaves ${e.rir} clean reps. Warm-ups do not count as work sets.`};
+ return {load:e.load,title:'Starting weight',text:e.kind==='bodyweight'?'Start with bodyweight.':`Start at ${e.load??0} lb and complete the listed sets and reps.`};
 }
