@@ -6,6 +6,7 @@ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const dateLabel=s=>new Date(s+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'});
 const fullDate=s=>new Date(s+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
 const clock=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+const weightLabel=w=>w===0?'BODYWEIGHT':(w===null||w===undefined?'CHOOSE WEIGHT':`${w} LB`);
 let view='today',index=todayIndex(data.start),exerciseIndex=0,progressId='bench-strength',toastTimer;
 const drafts=new Map();
 const route=location.hash.match(/^#(today|train|progress)(?:\/(\d+))?(?:\/(\d+))?$/);
