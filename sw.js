@@ -1,7 +1,7 @@
 // Replaces both sw.js and the legacy sw.js?v=20261001b registration.
 const ROOT = new URL('./', self.location.href);
 const PREFIX = `ironform-forge-live:${ROOT.pathname}:`;
-const CACHE = `${PREFIX}20261103-1`;
+const CACHE = `${PREFIX}20261119-1`;
 const ASSETS = ['index.html', 'manifest.webmanifest', 'icon.svg',
   'forge/app.css', 'forge/app.js', 'forge/program.js', 'forge/store.js',
   'forge/assets/icon.svg', 'forge/assets/iron-plate.jpg', 'forge/assets/fonts.css',
